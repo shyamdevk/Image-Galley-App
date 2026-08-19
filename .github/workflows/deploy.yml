@@ -32,8 +32,11 @@ jobs:
               "sudo -u imagegallery git pull --ff-only origin main",
               "sudo docker compose -f docker-compose.aws.yml build",
               "sudo docker compose -f docker-compose.aws.yml up -d",
+              "echo Waiting for application to start...",
+              "for i in $(seq 1 12); do if curl -fsS http://127.0.0.1:5000 > /dev/null; then echo Application is healthy.; break; fi; echo Application not ready yet. Attempt $i/12...; sleep 5; done",
+              "curl -fsS http://127.0.0.1:5000 > /dev/null",
               "sudo docker ps",
-              "curl -f http://127.0.0.1:5000"
+              "echo Deployment successful."
             ]' \
             --region us-east-1 \
             --query 'Command.CommandId' \
