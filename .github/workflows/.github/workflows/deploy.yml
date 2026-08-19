@@ -1,0 +1,30 @@
+name: Deploy Image Gallery
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+
+            cd /opt/imagegallery/Image-Galley-App
+
+            echo "Pulling latest code..."
+            sudo -u imagegallery git pull origin main
+
+            echo "Rebuilding application..."
+            sudo docker compose -f docker-compose.aws.yml up -d --build
+
+            echo "Deployment completed."
