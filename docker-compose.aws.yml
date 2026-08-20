@@ -16,7 +16,7 @@ services:
     container_name: image_gallery_app
 
     env_file:
-      - .env
+      - /home/imagegallery/.env
 
     ports:
       - "127.0.0.1:5000:5000"
