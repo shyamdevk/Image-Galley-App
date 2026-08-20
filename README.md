@@ -319,3 +319,7 @@ This project is provided as-is for educational purposes.
 ## Support
 
 For issues or questions, please review the code comments or modify the application as needed.
+
+## CI/CD Verification
+
+This change verifies automatic deployment through GitHub Actions and AWS SSM.
